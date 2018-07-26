@@ -14,10 +14,7 @@ namespace API
         {
             HostConfiguration hostConfiguration = new HostConfiguration()
             {
-                UrlReservations = new UrlReservations()
-                {
-                    CreateAutomatically = true
-                }
+                RewriteLocalhost = false 
             };
 
             _host = new NancyHost(hostConfiguration, new Uri("http://localhost:8888"));
