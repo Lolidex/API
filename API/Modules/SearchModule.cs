@@ -1,19 +1,19 @@
-﻿using API.Responses;
-using Nancy;
+﻿using Nancy;
+using API.Objects;
+using API.Responses;
 using Nancy.ModelBinding;
-using System;
+using RethinkDb.Driver;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using RethinkDb.Driver.Net;
 
 namespace API.Modules
 {
     public class SearchModule : NancyModule
     {
+        private RethinkDB R = RethinkDB.R;
 
         public SearchModule() : base("/search")
         {
-
             Get("/", x => {
                 var parameters = this.Bind<SearchParameters>();
 
@@ -27,26 +27,21 @@ namespace API.Modules
                     });
                 }
 
-                return Response.AsText("tttttt");
-            });
+                Cursor<Character> result = R.Db("Lolidex").Table("Characters").GetAll(parameters.ToList()).Run<Character>(Program.Conn);
+                List<Character> characters = new List<Character>();
+                
+                // loop through the results and add them to a list
+                foreach(Character character in result)
+                {
+                    characters.Add(character);
+                }
 
-            
-        }
-
-    }
-
-    internal class SearchParameters
-    {
-        public string EyeColor { get; set; }
-        public string HairColor { get; set; }
-
-        public bool IsEmpty
-        {
-            get
-            {
-                return EyeColor == null && HairColor == null;
-            }
+                return Response.AsJson(new SearchResponse()
+                {
+                    Results = characters.Count,
+                    Characters = characters
+                });
+            });          
         }
     }
-
 }
