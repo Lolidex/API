@@ -1,6 +1,6 @@
-﻿using Nancy;
+﻿using API.Responses;
+using Nancy;
 using Nancy.ErrorHandling;
-using Nancy.Responses;
 using Newtonsoft.Json;
 
 namespace API.Handlers
@@ -10,28 +10,21 @@ namespace API.Handlers
 
         public void Handle(HttpStatusCode statusCode, NancyContext context)
         {
-            var response = (Response)JsonConvert.SerializeObject(new Error()
+            var response = (Response)JsonConvert.SerializeObject(new ErrorResponse()
             {
                 Code = (int)statusCode,
                 Message = statusCode.ToString()
             });
             response.ContentType = "application/json";
+            response.StatusCode = statusCode;
 
             context.Response = response;
         }
 
         public bool HandlesStatusCode(HttpStatusCode statusCode, NancyContext context)
         {
-            return true;
+            return statusCode != HttpStatusCode.OK;
         }
     }
 
-    internal class Error
-    {
-        [JsonProperty("code")]
-        public int Code { get; set; }
-
-        [JsonProperty("message")]
-        public string Message { get; set; }
-    }
 }

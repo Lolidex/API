@@ -11,8 +11,4 @@
     <PackageReference Include="Nancy.Serialization.JsonNet" Version="2.0.0-clinteastwood" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Routers\" />
-  </ItemGroup>
-
 </Project>

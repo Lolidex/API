@@ -17,6 +17,7 @@ namespace API
                 RewriteLocalhost = false 
             };
 
+            // run behind nginx proxy
             _host = new NancyHost(hostConfiguration, new Uri("http://localhost:8888"));
 
             _host.Start();
