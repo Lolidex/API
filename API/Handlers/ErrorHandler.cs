@@ -7,7 +7,6 @@ namespace API.Handlers
 {
     public class ErrorHandler : IStatusCodeHandler
     {
-
         public void Handle(HttpStatusCode statusCode, NancyContext context)
         {
             var response = (Response)JsonConvert.SerializeObject(new ErrorResponse()
@@ -23,8 +22,7 @@ namespace API.Handlers
 
         public bool HandlesStatusCode(HttpStatusCode statusCode, NancyContext context)
         {
-            return statusCode != HttpStatusCode.OK;
+            return false;
         }
     }
-
 }
