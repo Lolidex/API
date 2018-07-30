@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using API.Objects;
 using Nancy.Hosting.Self;
 using RethinkDb.Driver;
 using RethinkDb.Driver.Net;

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using RethinkDb.Driver;
+using RethinkDb.Driver.Model;
+using System.Reflection;
 
 namespace API.Objects
 {
@@ -6,23 +8,29 @@ namespace API.Objects
     {
         public string EyeColor { get; set; }
         public string HairColor { get; set; }
+        public string Name { get; set; }
+        public double Height { get; set; }
+        public string BirthPlace { get; set; }
 
-        public bool IsEmpty
-        {
-            get
-            {
-                return EyeColor == null && HairColor == null;
-            }
+        public bool IsEmpty()
+        { 
+            return EyeColor == null && HairColor == null && Name == null && Height == 0.0 && BirthPlace == null;
         }
 
-        public List<string> ToList()
+        public MapObject ToReQLHashMap()
         {
-            var list = new List<string>();
+            RethinkDB r = RethinkDB.R;
+            MapObject hashmap = r.HashMap();
 
-            list.Add(EyeColor);
-            list.Add(HairColor);
+            foreach (PropertyInfo prop in typeof(SearchParameters).GetProperties())
+            {
+                if (prop.GetValue(this) != null && !prop.GetValue(this).Equals(0.0))
+                {
+                    hashmap = hashmap.With(prop.Name, prop.GetValue(this));
+                }
+            }
 
-            return list;
+            return hashmap;
         }
     }
 }

@@ -5,6 +5,7 @@ using Nancy.ModelBinding;
 using RethinkDb.Driver;
 using System.Collections.Generic;
 using RethinkDb.Driver.Net;
+using System.Linq;
 
 namespace API.Modules
 {
@@ -17,17 +18,18 @@ namespace API.Modules
             Get("/", x => {
                 var parameters = this.Bind<SearchParameters>();
 
-                if (parameters.IsEmpty)
+                if (parameters.IsEmpty())
                 {
                     // no search parameters provided
                     return Response.AsJson(new ErrorResponse()
                     {
                         Code = 400,
-                        Message = "No search parameters provided"
+                        Message = "No search parameters provided, following available: " + 
+                            string.Join(", ", typeof(SearchParameters).GetProperties().Select(prop => prop.Name).ToList())
                     });
                 }
 
-                Cursor<Character> result = R.Db("Lolidex").Table("Characters").GetAll(parameters.ToList()).Run<Character>(Program.Conn);
+                Cursor<Character> result = R.Db("Lolidex").Table("Characters").Filter(parameters.ToReQLHashMap()).Run<Character>(Program.Conn);
                 List<Character> characters = new List<Character>();
                 
                 // loop through the results and add them to a list
