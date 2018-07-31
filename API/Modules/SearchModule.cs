@@ -25,7 +25,7 @@ namespace API.Modules
                     {
                         Code = 400,
                         Message = "No search parameters provided, following available: " + 
-                            string.Join(", ", typeof(SearchParameters).GetProperties().Select(prop => prop.Name).ToList())
+                            string.Join(", ", typeof(SearchParameters).GetProperties().Select(prop => prop.Name.ToLower()).ToList())
                     });
                 }
 

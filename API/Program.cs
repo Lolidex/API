@@ -43,7 +43,10 @@ namespace API
             {
                 Console.WriteLine("^c pressed quiting..");
 
-                _host.Stop();
+                _host.Dispose();
+                Conn.Close();
+                
+                Environment.Exit(0);
             };
 
             while (true) Thread.Sleep(1);
