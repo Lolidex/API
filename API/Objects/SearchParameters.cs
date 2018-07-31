@@ -9,12 +9,13 @@ namespace API.Objects
         public string EyeColor { get; set; }
         public string HairColor { get; set; }
         public string Name { get; set; }
+        public string TranslatedName { get; set; }
         public double Height { get; set; }
         public string BirthPlace { get; set; }
 
         public bool IsEmpty()
         { 
-            return EyeColor == null && HairColor == null && Name == null && Height == 0.0 && BirthPlace == null;
+            return EyeColor == null && HairColor == null && Name == null && Height == 0.0 && BirthPlace == null && TranslatedName == null;
         }
 
         public MapObject ToReQLHashMap()
