@@ -22,7 +22,7 @@ namespace API.Handlers
 
         public bool HandlesStatusCode(HttpStatusCode statusCode, NancyContext context)
         {
-            return false;
+            return statusCode != HttpStatusCode.OK && statusCode != HttpStatusCode.InternalServerError;
         }
     }
 }
