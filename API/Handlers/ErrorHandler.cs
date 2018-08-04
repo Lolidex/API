@@ -12,7 +12,7 @@ namespace API.Handlers
             var response = (Response)JsonConvert.SerializeObject(new ErrorResponse()
             {
                 Code = (int)statusCode,
-                Message = statusCode.ToString()
+                Message = $"Cannot {context.Request.Method} {context.Request.Url.Path}"
             });
             response.ContentType = "application/json";
             response.StatusCode = statusCode;

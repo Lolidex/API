@@ -33,7 +33,6 @@ namespace API.Modules
                     Message = "This endpoint can only be called using a POST request"
                 });
             });
-
         }
 
         public bool IsTokenValid(string token)
