@@ -25,7 +25,7 @@ namespace API.Modules
                     });
                 }
 
-                Cursor<string> result = R.Db("Lolidex").Table("Characters").Filter(row => row.G("Name").Match("^" + search)).G("Name").Limit(5).Run<string>(Program.Conn);
+                Cursor<string> result = R.Db("Lolidex").Table("Characters").Filter(row => row.G("Name").Match("(?i)^" + search)).G("Name").Limit(5).Run<string>(Program.Conn);
                 List<string> autocomplete = new List<string>();
 
                 // loop through the results and add them to a list
